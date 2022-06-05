@@ -47,7 +47,6 @@ var Shaker = (() => {
 
     function createUserList(dataArray) {
 
-      searchResult.innerHTML = "";
       if (dataArray)  {
 
         for (const key in dataArray) {
@@ -63,6 +62,24 @@ var Shaker = (() => {
 
         }
       }
+    }
+
+    searchInput.addEventListener('input', filterData)
+
+    function filterData(e) {
+      searchResult.innerHTML = ""
+
+      const { target } = e
+
+      const valueSearch = target.value.toLowerCase().replace(/\s/g, "")
+      const filteredArr = dataArray.filter( el => 
+        el.name.last.toLowerCase().includes(valueSearch) || 
+        el.name.first.toLowerCase().includes(valueSearch) ||
+        `${el.name.last + el.name.first}`.toLowerCase().replace(/\s/g, "").includes(valueSearch) ||
+        `${el.name.first + el.name.last}`.toLowerCase().replace(/\s/g, "").includes(valueSearch) 
+        )
+
+      createUserList(filteredArr)
     }
 
   }
